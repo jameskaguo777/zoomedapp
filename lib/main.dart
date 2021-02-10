@@ -12,14 +12,27 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-
-      theme: ThemeData(
-       
+      title: 'Zoomed App',
+      darkTheme: ThemeData(
+        accentColor: Colors.orange,
         primarySwatch: Colors.blue,
-        brightness: Brightness.light,
+        scaffoldBackgroundColor: Colors.black12,
+        brightness: Brightness.dark,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+      theme: ThemeData(
+        accentColor: Colors.orange,
+        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.white,
+        brightness: Brightness.light,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        fontFamily: 'Ubuntu',
+        textTheme: TextTheme(
+          headline3: TextStyle(fontFamily: 'Alegreya', fontWeight: FontWeight.w700, color: Colors.black),
+          overline: TextStyle(fontFamily: 'Ubuntu', color: Colors.grey),
+        ),
+      ),
+      themeMode: ThemeMode.light,
       localizationsDelegates: [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
