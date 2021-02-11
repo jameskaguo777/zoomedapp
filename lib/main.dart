@@ -19,6 +19,11 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.black12,
         brightness: Brightness.dark,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        textTheme: TextTheme(
+          headline3: TextStyle(fontFamily: 'Hammersmith', fontWeight: FontWeight.w700, color: Colors.white),
+          overline: TextStyle(fontFamily: 'Ubuntu'),
+          caption: TextStyle(color: Colors.accents.first),
+        ),
       ),
       theme: ThemeData(
         accentColor: Colors.orange,
@@ -28,9 +33,14 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
         fontFamily: 'Ubuntu',
         textTheme: TextTheme(
-          headline3: TextStyle(fontFamily: 'Alegreya', fontWeight: FontWeight.w700, color: Colors.black),
-          overline: TextStyle(fontFamily: 'Ubuntu', color: Colors.grey),
+
+          headline3: TextStyle(fontFamily: 'Hammersmith', fontWeight: FontWeight.w700, color: Colors.black),
+          caption: TextStyle(color: Colors.accents.first),
+          overline: TextStyle(fontFamily: 'Ubuntu'),
         ),
+        iconTheme: IconThemeData(
+          color: Colors.accents.first
+        )
       ),
       themeMode: ThemeMode.light,
       localizationsDelegates: [
