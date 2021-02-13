@@ -1,17 +1,37 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:zoomed_app/screens/home/widget/carouse_card.dart';
+import 'package:zoomed_app/screens/home/widget/title_link.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  _Home createState() => _Home();
+}
+
+class _Home extends State<Home> {
+  int currentPage = 0;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
-        child: Column(
+        // padding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
+        child: ListView(
           children: [
             _header(context),
-            _eventsNear(context),
+            TitleLinkWidget(
+              title: 'Events near you',
+              linkTitle: 'See All',
+              widget: _eventsNear(context),
+            ),
+            _categorySection(),
           ],
         ),
       ),
@@ -19,8 +39,9 @@ class Home extends StatelessWidget {
   }
 
   Widget _header(BuildContext context) => Container(
+        padding: const EdgeInsets.fromLTRB(10, 10, 10, 1),
         width: double.infinity,
-        height: MediaQuery.of(context).size.height * .2,
+        height: MediaQuery.of(context).size.height * .1,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -36,7 +57,7 @@ class Home extends StatelessWidget {
                   height: 1,
                 ),
                 Text(
-                  'Events',
+                  'ZoomedUp',
                   style: Theme.of(context).textTheme.headline3,
                 ),
               ],
@@ -54,110 +75,100 @@ class Home extends StatelessWidget {
         width: double.infinity,
         child: Column(
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Events near you',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-                InkWell(
-                  onTap: () {
-                    print('See All');
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.width * .6,
+              child: PageView.builder(
+                  itemCount: 5,
+                  pageSnapping: true,
+                  onPageChanged: (value) {
+                    setState(() {
+                      currentPage = value;
+                    });
                   },
-                  child: Wrap(
-                    direction: Axis.horizontal,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    spacing: 5,
-                    children: [
-                      Text(
-                        'See All',
-                        style: Theme.of(context).textTheme.caption,
+                  physics: BouncingScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  controller:
+                      PageController(keepPage: true, viewportFraction: 0.9),
+                  itemBuilder: (context, i) {
+                    return Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 8.0, 8.0, 8.0),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(context, '/blog/page');
+                        },
+                        child: CarouseCard(
+                            textStyle: Theme.of(context)
+                                .textTheme
+                                .headline5
+                                .copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                            isOverlineVisible: true,
+                            overline1T: 'SAT, OCTOBER 26',
+                            overline2T: '453 BOOKLYN, NY USA',
+                            imageLink:
+                                'https://itarena.ua/wp-content/uploads/2017/09/img_1692-1024x683-1024x683.jpg',
+                            title: 'Zoomed MeetUp'),
                       ),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        size: 10,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                    );
+                  }),
             ),
-            SizedBox(
-              height: 10,
+            Container(
+              alignment: Alignment.center,
+              width: MediaQuery.of(context).size.width,
+              height: 30,
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 5,
+                  itemBuilder: (context, i) {
+                    return currentPage == i
+                        ? Icon(
+                            Icons.circle,
+                            size: 10,
+                          )
+                        : Icon(
+                            Icons.blur_circular_sharp,
+                            size: 10,
+                            color: Colors.orange[400],
+                          );
+                  }),
             ),
-            _carouselCard(context),
           ],
         ),
       );
 
-  Widget _carouselCard(BuildContext context) => Container(
-    padding: const EdgeInsets.all(0),
-    margin: const EdgeInsets.all(0),
-    alignment: Alignment.bottomCenter,
-    child: Card(
-      color: Colors.black38,
-      margin: const EdgeInsets.all(0),
-          child: Container(
-            width: double.infinity,
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.end,
-        mainAxisSize: MainAxisSize.min,
-
-        children: [
-              Wrap(
-                alignment: WrapAlignment.start,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                direction: Axis.horizontal,
-                children: [
-                  Text('SAT, OCTOBER 26',
-                      style: Theme.of(context).textTheme.overline.copyWith(
-                          color: Colors.white, fontWeight: FontWeight.bold)),
-                  SizedBox(
-                    width: 10,
+  Widget _categorySection() => TitleLinkWidget(
+        title: 'Category',
+        linkTitle: 'See All',
+        route: '/categories',
+        widget: Container(
+          width: double.infinity,
+          height: MediaQuery.of(context).size.width * .3,
+          child: PageView.builder(
+              itemCount: 5,
+              pageSnapping: true,
+              dragStartBehavior: DragStartBehavior.start,
+              onPageChanged: (value) {},
+              scrollDirection: Axis.horizontal,
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              physics: BouncingScrollPhysics(),
+              controller: PageController(keepPage: true, viewportFraction: 0.6),
+              itemBuilder: (context, i) {
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 8.0, 8.0, 8.0),
+                  child: CarouseCard(
+                    imageLink:
+                        'https://itarena.ua/wp-content/uploads/2017/09/img_1692-1024x683-1024x683.jpg',
+                    title: 'Outdoor & Adventure',
+                    textStyle: Theme.of(context)
+                        .textTheme
+                        .subtitle1
+                        .copyWith(color: Colors.white),
                   ),
-                  Icon(
-                    Icons.circle,
-                    size: 10,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text('426, BROOKLY NY USA',
-                  overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.overline.copyWith(
-                          color: Colors.white, fontWeight: FontWeight.bold)),
-                ],
-              ),
-              Text(
-                'Zoomed MeetUp',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline5
-                    .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
-              )
-        ],
-      ),
-            ),
-          ),
-    ),
-    width: MediaQuery.of(context).size.width * .6,
-    height: MediaQuery.of(context).size.width * .6,
-    clipBehavior: Clip.antiAliasWithSaveLayer,
-    
-
-    decoration: BoxDecoration(
-      shape: BoxShape.rectangle,
-      borderRadius: BorderRadius.circular(15),
-
-
-        image: DecorationImage(
-            fit: BoxFit.cover,
-            image: NetworkImage(
-                'https://itarena.ua/wp-content/uploads/2017/09/img_1692-1024x683-1024x683.jpg'))),
-  );
+                );
+              }),
+        ),
+      );
 }
