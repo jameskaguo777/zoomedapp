@@ -20,14 +20,14 @@ class MyApp extends StatelessWidget {
           primaryColorBrightness: Brightness.dark,
           primaryColorDark: Colors.black,
           scaffoldBackgroundColor: Colors.black12,
-          shadowColor: Colors.grey.withOpacity(0.8),
+          shadowColor: Colors.grey.shade200.withOpacity(0.3),
           colorScheme: ColorScheme(
               primary: Colors.black,
-              primaryVariant: Colors.grey[300],
+              primaryVariant: Colors.grey.shade900,
               secondary: Colors.deepOrange,
-              secondaryVariant: Colors.grey[50],
+              secondaryVariant: Colors.grey.shade700,
               surface: Colors.black,
-              background: Colors.black,
+              background: Colors.black38,
               error: Colors.redAccent,
               onPrimary: Colors.black,
               onSecondary: Colors.black12,
@@ -60,14 +60,14 @@ class MyApp extends StatelessWidget {
             primaryColorBrightness: Brightness.light,
             primaryColorLight: Colors.white,
             scaffoldBackgroundColor: Colors.white,
-            shadowColor: Colors.grey.withOpacity(0.5),
+            shadowColor: Colors.grey.shade200,
             colorScheme: ColorScheme(
                 primary: Colors.white,
                 primaryVariant: Colors.grey[300],
                 secondary: Colors.deepOrange,
                 secondaryVariant: Colors.grey[50],
                 surface: Colors.white,
-                background: Colors.white,
+                background: Colors.black38,
                 error: Colors.redAccent,
                 onPrimary: Colors.white,
                 onSecondary: Colors.white12,
@@ -88,13 +88,19 @@ class MyApp extends StatelessWidget {
             textTheme: TextTheme(
               headline3: TextStyle(
                   fontFamily: 'Hammersmith',
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black),
+                fontWeight: FontWeight.w700,
+                color: Colors.black),
+              headline4: TextStyle(
+                fontFamily: 'Hammersmith',
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black
+              ),
               caption: TextStyle(color: Colors.accents.first),
               overline: TextStyle(fontFamily: 'Ubuntu'),
+
             ),
             iconTheme: IconThemeData(color: Colors.accents.first)),
-        themeMode: ThemeMode.dark,
+        themeMode: ThemeMode.light,
         localizationsDelegates: [
           AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
